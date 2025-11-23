@@ -222,14 +222,23 @@ public class FluidGrid {
     }
     
     public double getDensity(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return 0.0;
+        }
         return density[IX(x, y)];
     }
     
     public double getVelocityX(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return 0.0;
+        }
         return u[IX(x, y)];
     }
     
     public double getVelocityY(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height) {
+            return 0.0;
+        }
         return v[IX(x, y)];
     }
     

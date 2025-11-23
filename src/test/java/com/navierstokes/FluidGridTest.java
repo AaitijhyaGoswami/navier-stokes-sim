@@ -136,4 +136,28 @@ public class FluidGridTest {
             }
         }
     }
+    
+    @Test
+    public void testGetterBoundsChecking() {
+        FluidGrid grid = new FluidGrid(10, 10, 0.0001, 0.0001, 0.1);
+        
+        grid.addDensity(5, 5, 100.0);
+        grid.addVelocity(5, 5, 2.0, 3.0);
+        
+        // Test valid coordinates
+        assertEquals(100.0, grid.getDensity(5, 5), EPSILON);
+        assertEquals(2.0, grid.getVelocityX(5, 5), EPSILON);
+        assertEquals(3.0, grid.getVelocityY(5, 5), EPSILON);
+        
+        // Test out of bounds coordinates - should return 0.0
+        assertEquals(0.0, grid.getDensity(-1, 5), EPSILON);
+        assertEquals(0.0, grid.getDensity(5, -1), EPSILON);
+        assertEquals(0.0, grid.getDensity(10, 5), EPSILON);
+        assertEquals(0.0, grid.getDensity(5, 10), EPSILON);
+        
+        assertEquals(0.0, grid.getVelocityX(-1, 5), EPSILON);
+        assertEquals(0.0, grid.getVelocityX(10, 5), EPSILON);
+        assertEquals(0.0, grid.getVelocityY(5, -1), EPSILON);
+        assertEquals(0.0, grid.getVelocityY(5, 10), EPSILON);
+    }
 }
