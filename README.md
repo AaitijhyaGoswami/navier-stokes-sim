@@ -2,113 +2,67 @@
 *A Solo Computational Physics Project (Java)*
 
 ## Overview
-This project implements a simplified solver for the **2D incompressible Navier–Stokes equations** in Java.  
-The goal is to build a minimal but accurate educational simulation of fluid flow, using stable numerical techniques that balance physical correctness with real-time visualization.
+This project is a simplified educational implementation of a 2D incompressible fluid simulator in Java.  
+It numerically models how velocity, pressure, viscosity, and external forces interact on a 2D grid.
 
 ---
 
-## Governing Equations
+## Physical Parameters Used in the Simulation
 
-The simulation models an **incompressible Newtonian fluid** using the Navier–Stokes PDE system:
+### Velocity Field
+- **u(x, y, t):** Horizontal and vertical velocity components at each grid cell  
+- **Units:** arbitrary (simulation units)
 
-### **Momentum Equation**
-\[
-\frac{\partial \mathbf{u}}{\partial t}
-+ (\mathbf{u} \cdot \nabla)\mathbf{u}
-= -\frac{1}{\rho}\nabla p
-+ \nu \nabla^2 \mathbf{u}
-+ \mathbf{F}
-\]
+### Pressure Field
+- **p(x, y, t):** Scalar pressure value at each grid cell  
+- Used to enforce incompressibility
 
-where  
-- \(\mathbf{u}(x, y, t)\) = velocity field  
-- \(p(x, y, t)\) = pressure field  
-- \(\rho\) = density (assumed constant)  
-- \(\nu\) = kinematic viscosity  
-- \(\mathbf{F}\) = external force field  
+### Density
+- **rho:** Fluid density  
+- Assumed constant (typically set to 1.0 for simulation)
 
-### **Incompressibility Constraint**
-\[
-\nabla \cdot \mathbf{u} = 0
-\]
+### Viscosity
+- **nu:** Kinematic viscosity  
+- Controls how quickly the fluid diffuses and smooths out  
+- Typical simulation range: 0.0001 – 0.1
 
-This constraint is enforced via a **projection step**, solving the Poisson equation for pressure:
+### External Forces
+- **F:** External forces applied to the fluid  
+- Examples: user dragging mouse, injected momentum, gravity-like effects
 
-\[
-\nabla^2 p = \rho \, \nabla \cdot \mathbf{u}^{*}
-\]
+### Time Step
+- **dt:** Size of each simulation step  
+- Smaller dt gives more accurate results  
+- Typical values: 0.01 – 0.1
 
-where \(\mathbf{u}^{*}\) is the intermediate velocity before enforcing incompressibility.
-
----
-
-## Numerical Method
-The solver follows the classic **Stable Fluids** approach:
-
-1. **Add Forces**  
-   \[
-   \mathbf{u} \leftarrow \mathbf{u} + \Delta t \, \mathbf{F}
-   \]
-
-2. **Diffuse**  
-   Solve  
-   \[
-   \frac{\partial \mathbf{u}}{\partial t} = \nu \nabla^2 \mathbf{u}
-   \]  
-   using Gauss–Seidel relaxation.
-
-3. **Advect**  
-   Semi-Lagrangian backward particle tracing:  
-   \[
-   \mathbf{u}(x, y, t + \Delta t)
-   = \mathbf{u}(x - \mathbf{u} \Delta t, \; y - \mathbf{u} \Delta t, \; t)
-   \]
-
-4. **Project**  
-   Enforce  
-   \[
-   \nabla \cdot \mathbf{u} = 0
-   \]  
-   by solving the Poisson equation for pressure and subtracting the gradient from velocity.
-
-This produces a stable, visually smooth simulation that remains robust even under large timesteps.
+### Grid Resolution
+- **N:** Number of cells along each axis (NxN grid)  
+- Higher N = more accuracy, slower simulation  
+- Typical beginner value: 64 or 128
 
 ---
 
-## Features (Planned / In Progress)
-- 2D incompressible Navier–Stokes solver (finite-difference)
-- Semi-Lagrangian advection
-- Diffusion & viscosity modeling
-- Pressure projection using iterative solvers
-- Dye field for visualizing flow
-- Velocity arrows & vorticity map visualizations
-- Real-time interactive rendering (Java Swing / JavaFX)
+## Numerical Components Used
+- **Advection:** Moving velocity/dye along the flow  
+- **Diffusion:** Smoothing due to viscosity  
+- **Projection:** Adjusting the velocity field to make divergence = 0  
+- **Boundary Conditions:** No-slip or reflective walls  
+- **Gauss–Seidel iteration:** For solving diffusion and pressure steps  
 
 ---
 
-## Tools & Requirements
-- **Java 17+**
-- Optional: Gradle or Maven for build automation
-- No external simulation libraries  
-  *(all numerical methods implemented from scratch for educational value)*
-
----
-
-## Learning Objectives
-- Understand the mathematical structure of Navier–Stokes equations  
-- Implement numerical PDE solvers in Java  
-- Explore advection, diffusion, and incompressibility constraints  
-- Visualize vector fields and fluid behavior  
-- Develop modular scientific codebases  
+## Requirements
+- Java 17+  
+- Optional: JavaFX or Swing for animation and visualization  
 
 ---
 
 ## References
-- Jos Stam — *“Stable Fluids,”* SIGGRAPH 1999  
-- Robert Bridson — *Fluid Simulation for Computer Graphics*  
-- Chorin — *A Numerical Method for Solving Incompressible Flow Problems*  
+- Jos Stam — “Stable Fluids” (1999)  
+- Bridson — *Fluid Simulation for Computer Graphics*  
 
 ---
 
 ## License
 MIT License
+
