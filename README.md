@@ -1,5 +1,5 @@
 # 2D Navier–Stokes Fluid Simulation  
-*A Solo Computational Physics Project (Java)*
+*A DFOC Solo Computational Physics Project (Java)*
 
 ## Overview
 This project is a simplified educational implementation of a 2D incompressible fluid simulator in Java.  
